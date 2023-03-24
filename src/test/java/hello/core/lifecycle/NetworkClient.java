@@ -1,6 +1,9 @@
 package hello.core.lifecycle;
 
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
 public class NetworkClient{
     private String url;
     public NetworkClient() {
@@ -24,12 +27,14 @@ public class NetworkClient{
     }
 
     //의존관계 주입 끝나면 호출
+    @PostConstruct
     public void init() throws Exception {
         System.out.println("NetworkClient.init");
         connect();
         call("초기화 연결 메시지");
     }
 
+    @PreDestroy
     public void close() throws Exception {
         System.out.println("NetworkClient.close");
         disconnect();
@@ -58,5 +63,19 @@ public class NetworkClient{
         직접 스프링 빈으로 등록하면 종료 메서드는 따로 적어주지 않아도 잘 동작한다
 
         참고) 추론 기능을 사용하기 싫으면 destroyMethod= "" 처럼 빈 공백을 지정하면 된다.
+     */
+
+    /*
+    @PostConstruce, @PreDestroy 애노테이션 특징
+        최신 스프링에서 가장 권장하는 방법이다.
+        애노테이션 하나만 붙이면 되므로 매우 편리하다.
+        스프링에 종속된 기술이 아니라, JSR-250 이라는 자바 표준이다. 따라서 스프링이 아닌 다른 컨테이너에서도 동작한다.
+        컴포넌트 스캔과 잘 어울린다.
+        유일한 단점! 외부 라이브러리에는 적응하지 못한다. -> 외부 라이브러리를 초기화, 종료 해야 하면 @Bean의 기능을 사용하자.
+
+        *** 정리 ***
+
+        @PostConstruct, @PreDestroy 애노테이션을 사용하자
+        코드를 수정할 수 없는 외부 라이브러리를 초기화, 종료해야 하면 @Bean의 initMethod, destroyMethod 를 사용하자
      */
 }
