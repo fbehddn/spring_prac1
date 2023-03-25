@@ -11,4 +11,8 @@ public class CoreApplication {
 		SpringApplication.run(CoreApplication.class, args);
 	}
 
+	/*
+	~ ❯ sudo lsof -i:8080 -> 8080 포트 조회
+	~ ❯ sudo kill -9 "PID" -> 알맞은 PID 대입 후 서버 종료
+	 */
 }
